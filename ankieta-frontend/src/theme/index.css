@@ -1,0 +1,15 @@
+/* src/index.css */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  
+  background-color: #1a1b22; 
+  overflow-x: hidden;
+}
+
+
+.sd-container-modern {
+  max-width: 100% !important;
+}

@@ -1,0 +1,148 @@
+{
+    "title": "ankieta",
+    "showNavigationButtons": "none",
+    "questionsOnPageMode": "singlePage",
+    "pages": [
+        {
+            "name": "page1",
+            "elements": [
+                {
+                    "type": "panel",
+                    "name": "panel_0",
+                    "title": "Dane podstawowe",
+                    "elements": [
+                        {
+                            "name": "klient_info",
+                            "type": "text",
+                            "title": "Nazwa firmy klienta"
+                        },
+                        {
+                            "name": "branza",
+                            "type": "dropdown",
+                            "title": "Branża klienta",
+                            "choices": [
+                                "FMCG",
+                                "Pharma",
+                                "Budowlana",
+                                "Inna"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "panel_1",
+                    "title": "Transport",
+                    "elements": [
+                        {
+                            "name": "potrzeba_transport",
+                            "type": "boolean",
+                            "title": "Czy klient potrzebuje transportu?"
+                        },
+                        {
+                            "name": "typ_transportu",
+                            "type": "radiogroup",
+                            "title": "Rodzaj transportu",
+                            "choices": [
+                                "Krajowy",
+                                "Międzynarodowy"
+                            ],
+                            "visibleIf": "{potrzeba_transport} = true"
+                        },
+                        {
+                            "name": "kraje_ue",
+                            "type": "checkbox",
+                            "title": "Kierunki w UE",
+                            "choices": [
+                                "DE",
+                                "FR",
+                                "PL",
+                                "IT",
+                                "NL"
+                            ],
+                            "visibleIf": "{typ_transportu} = 'Międzynarodowy'"
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "panel_2",
+                    "title": "Magazyn",
+                    "elements": [
+                        {
+                            "name": "potrzeba_magazyn",
+                            "type": "boolean",
+                            "title": "Czy klient potrzebuje magazynowania?"
+                        },
+                        {
+                            "name": "typ_składowania",
+                            "type": "radiogroup",
+                            "title": "Rodzaj składowania",
+                            "choices": [
+                                "Regałowe",
+                                "Blokowe",
+                                "Chłodnia"
+                            ],
+                            "visibleIf": "{potrzeba_magazyn} = true"
+                        },
+                        {
+                            "name": "rodzaj_palet",
+                            "type": "radiogroup",
+                            "title": "Typ palet",
+                            "choices": [
+                                "Euro (80x120)",
+                                "Przemysłowa (100x120)",
+                                "Niestandardowa"
+                            ],
+                            "visibleIf": "{potrzeba_magazyn} = true"
+                        },
+                        {
+                            "name": "paleta_wymiary",
+                            "type": "text",
+                            "title": "Podaj wymiary (np. 120x120)",
+                            "visibleIf": "{rodzaj_palet} = 'Niestandardowa'"
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "panel_3",
+                    "title": "Systemy IT",
+                    "elements": [
+                        {
+                            "name": "wms_wymagany",
+                            "type": "boolean",
+                            "title": "Czy system WMS jest wymagany?",
+                            "visibleIf": "{potrzeba_magazyn} = true"
+                        },
+                        {
+                            "name": "wms_typ",
+                            "type": "radiogroup",
+                            "title": "Wybierz preferowany system",
+                            "choices": [
+                                "RFX",
+                                "OXY",
+                                "Infolog",
+                                "Klienta"
+                            ],
+                            "visibleIf": "{wms_wymagany} = true"
+                        }
+                    ]
+                },
+                {
+                    "type": "panel",
+                    "name": "panel_4",
+                    "title": "Logistyka",
+                    "elements": [
+                        {
+                            "name": "termin_startu",
+                            "type": "text",
+                            "title": "Przewidywany termin rozpoczęcia",
+                            "inputType": "date"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

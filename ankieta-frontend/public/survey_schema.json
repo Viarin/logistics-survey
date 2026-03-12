@@ -1,0 +1,148 @@
+{
+  "title": "Konfigurator Rozwiązań Logistycznych",
+  "description": "Ankieta audytu potrzeb klienta (Wersja Sales MVP)",
+  "showProgressBar": "top",
+  "pages": [
+    {
+      "name": "audit_page",
+      "elements": [
+        {
+          "type": "panel",
+          "name": "panel_Dane podstawowe",
+          "title": "Dane podstawowe",
+          "elements": [
+            {
+              "name": "klient_info",
+              "title": "Nazwa firmy klienta",
+              "type": "text"
+            },
+            {
+              "name": "branza",
+              "title": "Branża klienta",
+              "type": "dropdown",
+              "choices": [
+                "FMCG",
+                "Pharma",
+                "Budowlana",
+                "Inna"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "panel_Transport",
+          "title": "Transport",
+          "elements": [
+            {
+              "name": "potrzeba_transport",
+              "title": "Czy klient potrzebuje transportu?",
+              "type": "boolean"
+            },
+            {
+              "name": "typ_transportu",
+              "title": "Rodzaj transportu",
+              "type": "radiogroup",
+              "choices": [
+                "Krajowy",
+                "Międzynarodowy"
+              ],
+              "visibleIf": "{potrzeba_transport} = true"
+            },
+            {
+              "name": "kraje_ue",
+              "title": "Kierunki w UE",
+              "type": "checkbox",
+              "choices": [
+                "DE",
+                "FR",
+                "PL",
+                "IT",
+                "NL"
+              ],
+              "visibleIf": "{typ_transportu} = 'Międzynarodowy'"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "panel_Magazyn",
+          "title": "Magazyn",
+          "elements": [
+            {
+              "name": "potrzeba_magazyn",
+              "title": "Czy klient potrzebuje magazynowania?",
+              "type": "boolean"
+            },
+            {
+              "name": "typ_składowania",
+              "title": "Rodzaj składowania",
+              "type": "radiogroup",
+              "choices": [
+                "Regałowe",
+                "Blokowe",
+                "Chłodnia"
+              ],
+              "visibleIf": "{potrzeba_magazyn} = true"
+            },
+            {
+              "name": "rodzaj_palet",
+              "title": "Typ palet",
+              "type": "radiogroup",
+              "choices": [
+                "Euro (80x120)",
+                "Przemysłowa (100x120)",
+                "Niestandardowa"
+              ],
+              "visibleIf": "{potrzeba_magazyn} = true"
+            },
+            {
+              "name": "paleta_wymiary",
+              "title": "Podaj wymiary (np. 120x120)",
+              "type": "text",
+              "visibleIf": "{rodzaj_palet} = 'Niestandardowa'"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "panel_Systemy IT",
+          "title": "Systemy IT",
+          "elements": [
+            {
+              "name": "wms_wymagany",
+              "title": "Czy system WMS jest wymagany?",
+              "type": "boolean",
+              "visibleIf": "{potrzeba_magazyn} = true"
+            },
+            {
+              "name": "wms_typ",
+              "title": "Wybierz preferowany system",
+              "type": "radiogroup",
+              "choices": [
+                "RFX",
+                "OXY",
+                "Infolog",
+                "Klienta"
+              ],
+              "visibleIf": "{wms_wymagany} = true"
+            }
+          ]
+        },
+        {
+          "type": "panel",
+          "name": "panel_Logistyka",
+          "title": "Logistyka",
+          "elements": [
+            {
+              "name": "termin_startu",
+              "title": "Przewidywany termin rozpoczęcia",
+              "type": "text",
+              "inputType": "date"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
