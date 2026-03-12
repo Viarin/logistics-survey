@@ -24,11 +24,11 @@ class SurveyVersionItem(BaseModel):
 
 @router.post("/upload")
 async def upload_survey(file: UploadFile = File(...), db: Session = Depends(get_db)):
-    # 1. Валідація розширення
+    # 1. vakidujemy, excel 
     if not file.filename.endswith(('.xlsx', '.xls')):
-        raise HTTPException(status_code=400, detail="Файл має бути формату Excel")
+        raise HTTPException(status_code=400, detail="file Excel")
 
-    # (Опціонально) Зберігаємо фізичний файл для історії
+     #save file to disk 
     upload_dir = "uploads"
     if not os.path.exists(upload_dir):
         os.makedirs(upload_dir)
@@ -37,19 +37,18 @@ async def upload_survey(file: UploadFile = File(...), db: Session = Depends(get_
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    # 2. Читаємо файл для парсингу
+    # 2. read file content
     with open(file_path, "rb") as f:
         content = f.read()
 
-    # 3. Конвертуємо Excel -> JSON (через наш сервіс)
-    # Цей JSON — це і є готова структура для SurveyJS
+    # 3. Converter Excel -> JSON 
+   
     try:
         survey_json = parse_excel_to_json(content, file.filename)
     except Exception as e:
-        raise HTTPException(status_code=422, detail=f"Помилка в структурі Excel: {str(e)}")
+        raise HTTPException(status_code=422, detail=f"eror for Excel: {str(e)}")
 
-    # 4. РОБИМО БЕКАП В БАЗУ ДАНИХ
-    # Зберігаємо JSON-схему, щоб фронтенд міг її викачати пізніше
+    # Save the survey structure to the database
     new_survey = Survey(
         name=file.filename,
         structure=survey_json
@@ -58,11 +57,11 @@ async def upload_survey(file: UploadFile = File(...), db: Session = Depends(get_
     db.commit()
     db.refresh(new_survey)
 
-    # 5. Надсилаємо готовий JSON на фронт відразу
+    # 5. Return the survey ID and JSON schema to the frontend
     return {
         "status": "success",
         "survey_id": new_survey.id,
-        "schema": survey_json  # Фронт отримує це і відразу малює анкету
+        "schema": survey_json #frontend will use this to render the survey immediately
     }
 
 
@@ -70,8 +69,8 @@ async def upload_survey(file: UploadFile = File(...), db: Session = Depends(get_
 async def sync_folder(db: Session = Depends(get_db)):
     sync_results = sync_excel_folder(db)
     if not sync_results:
-        return {"message": "У папці inputs немає нових файлів"}
-    return {"message": "Синхронізація завершена", "details": sync_results}
+        return {"message": "No Excel files found for synchronization."}
+    return {"message": "Synchronization completed.", "details": sync_results}
 
 
 @router.get("/{survey_id}/render", response_model=SurveyRenderResponse)

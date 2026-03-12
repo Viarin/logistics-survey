@@ -29,7 +29,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Підключаємо модульні роути
+# Include API routers
 app.include_router(surveys.router)
 
 
